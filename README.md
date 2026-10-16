@@ -1,8 +1,12 @@
-# University Engineering Projects
 
-## Digital Fuel Pump System – SystemVerilog
+# Daniel Shaheen
+**Electrical Engineering Student | Texas State University**
 
-**Oklahoma State University | ECEN 2233 – Fundamentals of Digital Logic Design**
+## University Engineering Projects
+
+### Digital Fuel Pump System – SystemVerilog
+
+**Oklahoma State University (OSU) | ECEN 2233 – Fundamentals of Digital Logic Design**
 
 ### Project Overview
 Designed and simulated a digital fuel pump system using SystemVerilog. The system calculates fuel requirements based on distance and fuel efficiency, determines the total fuel cost, and displays the calculated result through four seven-segment displays.
