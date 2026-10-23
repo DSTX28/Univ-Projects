@@ -1,73 +1,51 @@
-# Daniel Shaheen
-**Electrical Engineering Student | Texas State University**
+# Wildfire AI Agent — Research Workshop Project
 
-## University Engineering Projects
+A reproducible Python simulation and AI-agent evaluation exercise based on the **CADS / Texas State University “How to Build Agents for Research” workshop** (October 2026). Original workshop materials credit Aniruddha Bora. This repository adapts the workshop-provided code for learning and demonstration; the wildfire model is illustrative, not a real-world operational forecasting system.
 
-### Digital Fuel Pump System – SystemVerilog
+## What this project demonstrates
 
-**Oklahoma State University (OSU) | ECEN 2233 – Fundamentals of Digital Logic Design**
+- Probabilistic wildfire simulation on a 48 × 72 landscape with 36 town structures.
+- Comparing wind direction, wind speed, dryness, and river-crossing interventions.
+- Checking model recommendations with independent numerical tests.
+- An agent-loop design with tools, traces, and guardrails (requires a configured LLM).
 
-### Project Overview
-Designed and simulated a digital fuel pump system using SystemVerilog. The system calculates fuel requirements based on distance and fuel efficiency, determines the total fuel cost, and displays the calculated result through four seven-segment displays.
+## Files
 
-### Technical Skills
-- SystemVerilog programming
-- Digital logic design
-- Binary arithmetic and cost calculations
-- Seven-segment display control
-- Modular hardware design
-- Testbench development and waveform simulation
+- `wildfire_assignment.ipynb`: Colab notebook containing all seven exercises, completed numerical check code, and prepared agent prompts.
+- `fire_sim.py`: Workshop wildfire simulator.
+- `agent_tools.py`: Narrow tools exposed to the research agent.
+- `RESULTS.md`: Independently computed experiment results.
+- `requirements.txt`: Python dependencies.
 
-### Project Documentation
-The complete final lab report, including SystemVerilog code screenshots and simulation results, is available in this repository.
+## Run in Google Colab
 
+1. Upload `wildfire_assignment.ipynb` using **Upload notebook**.
+2. In the Colab **Files** sidebar, upload `fire_sim.py` and `agent_tools.py` to the working directory.
+3. Connect a Python runtime and run the cells in order. Independent checks run without an LLM.
+4. To run the **agent** sections, configure a reachable Ollama-compatible API endpoint, then set `RUN_AGENT = True` in the relevant cells. The default `localhost:11434` endpoint will not connect to an Ollama installation on your laptop from hosted Colab.
 
-### 4–20 mA Current Loop Voltage Conversion System – Circuits I
+## Status and limitations
 
-**Oklahoma State University (OSU) | ECEN 2714/2011 – Fundamentals of Electric Circuits Laboratory | Fall 2025**
+**Verified:** numerical simulation checks for Exercises 0–4 and critical reading of the supplied flawed trace in Exercise 5.
 
-#### Project Overview
-Designed, simulated, built, and tested a current-to-voltage conversion circuit using an LM358 operational amplifier. The system converts an industrial 4–20 mA current signal into a nominal 0–5 V output using a feedback resistor and DC offset network.
+**Not verified:** actual agent answers and traces for Exercises 1–4, and the 10-agent-run reliability experiment in Exercise 6. The notebook deliberately marks these as pending. Do not describe this as a fully completed AI-agent evaluation until those runs are executed and checked.
 
-#### Technical Skills
-- Analog circuit design
-- Operational amplifiers (LM358)
-- Transimpedance amplifier design
-- Circuit simulation
-- Breadboard prototyping
-- Digital multimeter measurements
-- Circuit testing and troubleshooting
-- Experimental data analysis
+The example agent uses generated Python and a basic text-based guard, which is **not a security boundary**. Only run trusted code in an isolated environment.
 
-#### Project Documentation
-The complete semester design project report, including circuit schematics, design calculations, simulation results, laboratory measurements, graphs, and breadboard photographs, is available in this repository.
+## Attribution
 
----
+Workshop source code and exercise: *How to Build Agents for Research*, CADS, Texas State University, Aniruddha Bora, October 2026.
 
-### Band-Pass Filter Frequency Response Analysis – MATLAB & LTspice
+## Technical project report and résumé summary
 
-**Individual Engineering Project | Spring 2026**
+See [Wildfire AI Agent Technical Report (PDF)](Wildfire_AI_Agent_Technical_Report.pdf) for objectives, methodology, benchmark results, limitations, and résumé-ready bullets. The PDF is a report of independently checked simulations, **not** a claim that the live AI agent or repeated reliability trials have been run.
 
-#### Project Overview
-Independently analyzed frequency response data and designed an active band-pass filter using MATLAB and LTspice. Estimated a transfer function, calculated frequency response characteristics, designed and simulated a filter circuit, and compared measured, theoretical, and simulated results.
+## Running Exercise 6 in Google Colab
 
-#### Technical Skills
-- MATLAB programming and data analysis
-- LTspice circuit design and simulation
-- Analog filter design
-- Transfer function estimation
-- Bode plot analysis
-- Operational amplifier circuit design
-- Gain, bandwidth, and cutoff frequency calculations
-- Circuit simulation and troubleshooting
-- IEEE-style technical report writing
+1. Upload `wildfire_assignment.ipynb`, `fire_sim.py`, and `agent_tools.py` to the same Colab runtime.
+2. Run the **Google Colab model setup** cell; it installs Ollama and downloads `qwen2.5:7b-instruct` into the Colab runtime.
+3. Run notebook cells in order through Exercise 3.
+4. Run Exercise 6 to collect ten **real** independent model runs and save `exercise6_results.json` and trace files.
+5. Replace the Exercise 6 placeholder with the printed observed result. Do not claim agent success until the runs complete.
 
-#### Project Results
-- Measured peak gain: 20.543 dB
-- Designed passband gain: approximately 20 dB
-- RMS magnitude error: 2.371 dB
-- Compared measured, estimated, and simulated frequency responses
-
-#### Project Documentation
-The complete IEEE-style project report, including MATLAB code, LTspice circuit schematics, calculations, frequency response graphs, and simulation results, is available in this repository.
-
+**Status:** Exercise 6 implementation is ready but its ten agent outcomes have not been executed or measured in this delivered archive.
