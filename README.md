@@ -1,17 +1,108 @@
 
-# Wildfire AI Agent — Research Workshop Project
+# Daniel Shaheen
 
-A reproducible Python wildfire simulation and AI-agent evaluation project based on the **CADS / Texas State University "How to Build Agents for Research" workshop** (October 2026).
+**Electrical Engineering Student | Texas State University**
 
-Original workshop materials credit Aniruddha Bora.
+## University Engineering Projects
 
-This repository adapts workshop-provided code for educational purposes, numerical experimentation, and AI-agent evaluation.
+This repository showcases engineering projects involving digital logic design, analog circuits, MATLAB, LTspice, Python, numerical simulations, and AI-agent research.
 
-**Disclaimer:** The wildfire simulator is illustrative and is not intended for real-world emergency forecasting or operational wildfire management.
+---
 
-## Project Overview
+### 1. Digital Fuel Pump System – SystemVerilog
 
-This project explores how AI agents can use Python tools to investigate wildfire behavior, evaluate interventions, and make evidence-based recommendations.
+**Oklahoma State University (OSU) | ECEN 2233 – Fundamentals of Digital Logic Design**
+
+#### Project Overview
+
+Designed and simulated a digital fuel pump system using SystemVerilog. The system calculates fuel requirements based on distance and fuel efficiency, determines the total fuel cost, and displays the calculated result through four seven-segment displays.
+
+#### Technical Skills
+
+- SystemVerilog programming
+- Digital logic design
+- Binary arithmetic and cost calculations
+- Seven-segment display control
+- Modular hardware design
+- Testbench development and waveform simulation
+
+#### Project Documentation
+
+The complete final lab report, including SystemVerilog code screenshots and simulation results, is available in this repository.
+
+---
+
+### 2. 4–20 mA Current Loop Voltage Conversion System – Circuits I
+
+**Oklahoma State University (OSU) | ECEN 2714/2011 – Fundamentals of Electric Circuits Laboratory | Fall 2025**
+
+#### Project Overview
+
+Designed, simulated, built, and tested a current-to-voltage conversion circuit using an LM358 operational amplifier. The system converts an industrial 4–20 mA current signal into a nominal 0–5 V output using a feedback resistor and DC offset network.
+
+#### Technical Skills
+
+- Analog circuit design
+- Operational amplifiers (LM358)
+- Transimpedance amplifier design
+- Circuit simulation
+- Breadboard prototyping
+- Digital multimeter measurements
+- Circuit testing and troubleshooting
+- Experimental data analysis
+
+#### Project Documentation
+
+The complete semester design project report, including circuit schematics, design calculations, simulation results, laboratory measurements, graphs, and breadboard photographs, is available in this repository.
+
+---
+
+### 3. Band-Pass Filter Frequency Response Analysis – MATLAB & LTspice
+
+**Individual Engineering Project | Spring 2026**
+
+#### Project Overview
+
+Independently analyzed frequency response data and designed an active band-pass filter using MATLAB and LTspice. Estimated a transfer function, calculated frequency response characteristics, designed and simulated a filter circuit, and compared measured, theoretical, and simulated results.
+
+#### Technical Skills
+
+- MATLAB programming and data analysis
+- LTspice circuit design and simulation
+- Analog filter design
+- Transfer function estimation
+- Bode plot analysis
+- Operational amplifier circuit design
+- Gain, bandwidth, and cutoff frequency calculations
+- Circuit simulation and troubleshooting
+- IEEE-style technical report writing
+
+#### Project Results
+
+- Measured peak gain: 20.543 dB
+- Designed passband gain: approximately 20 dB
+- RMS magnitude error: 2.371 dB
+- Compared measured, estimated, and simulated frequency responses
+
+#### Project Documentation
+
+The complete IEEE-style project report, including MATLAB code, LTspice circuit schematics, calculations, frequency response graphs, and simulation results, is available in this repository.
+
+---
+
+### 4. Wildfire AI Agent — Research Workshop Project
+
+**Texas State University | CADS — How to Build Agents for Research Workshop | Fall 2026**
+
+**Project Type:** AI-Agent Research, Python Simulation, and Experimental Evaluation
+
+**Original Workshop Materials:** Aniruddha Bora
+
+#### Project Overview
+
+Developed an educational adaptation of a Python wildfire simulation and AI-agent evaluation project based on the CADS / Texas State University "How to Build Agents for Research" workshop in October 2026.
+
+The project explores how AI agents can use Python tools to investigate wildfire behavior, evaluate interventions, and generate evidence-based recommendations.
 
 The project combines:
 
@@ -23,7 +114,9 @@ The project combines:
 - Agent guardrails and execution traces
 - Reliability testing across independent agent runs
 
-## Technical Skills Demonstrated
+**Disclaimer:** The wildfire simulator is illustrative and is not intended for real-world emergency forecasting or operational wildfire management.
+
+#### Technical Skills Demonstrated
 
 - Python programming
 - Simulation and statistical analysis
@@ -36,7 +129,7 @@ The project combines:
 - JSON logging and trace analysis
 - Research documentation
 
-## Simulation Environment
+#### Simulation Environment
 
 The wildfire simulation models a 48 × 72 landscape containing 36 town structures.
 
@@ -50,7 +143,7 @@ Experiments investigate how wildfire outcomes change with:
 
 Simulation results are compared using consistent random seeds and repeated trials.
 
-## Project Files
+#### Project Files
 
 | File | Description |
 |---|---|
@@ -63,7 +156,7 @@ Simulation results are compared using consistent random seeds and repeated trial
 
 Agent trace files and Exercise 6 results are generated when their corresponding experiments complete successfully.
 
-## AI Agent Architecture
+#### AI Agent Architecture
 
 The agent uses a tool-based reasoning loop:
 
@@ -80,9 +173,9 @@ The implementation uses the `qwen2.5:7b-instruct` language model through Ollama.
 
 The basic text-based code guard is an educational safeguard, not a complete security boundary. Generated code should only be executed in an isolated, trusted environment.
 
-## Running the Project in Google Colab
+#### Running the Project in Google Colab
 
-### Step 1 — Upload Project Files
+##### Step 1 — Upload Project Files
 
 Open Google Colab and upload:
 
@@ -92,7 +185,7 @@ Open Google Colab and upload:
 
 Ensure the Python files are accessible from the notebook's working directory.
 
-### Step 2 — Configure Runtime
+##### Step 2 — Configure Runtime
 
 Select:
 
@@ -106,78 +199,68 @@ Recommended configuration:
 
 A CPU runtime can also be used, although model inference may be slower.
 
-### Step 3 — Install Ollama
+##### Step 3 — Install Ollama
 
 Run the following commands in a Colab code cell:
 
-```python
-!apt-get update -qq
-!apt-get install -y zstd
-!curl -fsSL https://ollama.com/install.sh -o /tmp/install_ollama.sh
-!bash /tmp/install_ollama.sh
-```
+    !apt-get update -qq
+    !apt-get install -y zstd
+    !curl -fsSL https://ollama.com/install.sh -o /tmp/install_ollama.sh
+    !bash /tmp/install_ollama.sh
 
-### Step 4 — Start Ollama Server
+##### Step 4 — Start Ollama Server
 
 Run:
 
-```python
-import subprocess
-import time
+    import subprocess
+    import time
 
-server = subprocess.Popen(
-    ["ollama", "serve"],
-    stdout=open("/tmp/ollama.log", "w"),
-    stderr=subprocess.STDOUT
-)
-
-time.sleep(5)
-print("Ollama server startup attempted")
-```
-
-### Step 5 — Verify Server Connection
-
-Run:
-
-```python
-import urllib.request
-
-try:
-    response = urllib.request.urlopen(
-        "http://127.0.0.1:11434/api/tags",
-        timeout=5
+    server = subprocess.Popen(
+        ["ollama", "serve"],
+        stdout=open("/tmp/ollama.log", "w"),
+        stderr=subprocess.STDOUT
     )
-    print("SUCCESS! Ollama server connected!")
-    print(response.read().decode())
-except Exception as e:
-    print("Connection failed:", e)
-```
+
+    time.sleep(5)
+    print("Ollama server startup attempted")
+
+##### Step 5 — Verify Server Connection
+
+Run:
+
+    import urllib.request
+
+    try:
+        response = urllib.request.urlopen(
+            "http://127.0.0.1:11434/api/tags",
+            timeout=5
+        )
+        print("SUCCESS! Ollama server connected!")
+        print(response.read().decode())
+    except Exception as e:
+        print("Connection failed:", e)
 
 A successful connection confirms the Ollama API is reachable.
 
 An empty model list means the server is running but no model has been downloaded.
 
-### Step 6 — Download the AI Model
+##### Step 6 — Download the AI Model
 
 Run:
 
-```python
-!ollama pull qwen2.5:7b-instruct
-```
+    !ollama pull qwen2.5:7b-instruct
 
 The model download is approximately 4.7 GB.
 
 Verify installation:
 
-```python
-!ollama list
-```
+    !ollama list
 
 The output should include:
 
 `qwen2.5:7b-instruct`
 
-### Step 7 — Initialize the AI Agent
+##### Step 7 — Initialize the AI Agent
 
 Run the notebook's original agent setup cells in order.
 
@@ -187,39 +270,35 @@ Verify the model responds to a test prompt before starting the agent exercises.
 
 Where required, change:
 
-```python
-RUN_AGENT = False
-```
+`RUN_AGENT = False`
 
 to:
 
-```python
-RUN_AGENT = True
-```
+`RUN_AGENT = True`
 
 Only enable agent execution after confirming the model connection and required functions are working.
 
-## Exercises
+#### Exercises
 
-### Exercise 0 — Baseline Wildfire Simulation
+##### Exercise 0 — Baseline Wildfire Simulation
 
 Run 100 wildfire simulations to estimate average structural losses and the probability of the fire reaching town.
 
-### Exercise 1 — AI-Agent Investigation
+##### Exercise 1 — AI-Agent Investigation
 
 Use the research agent to investigate wildfire behavior through permitted simulation tools.
 
-### Exercise 2 — Environmental Conditions
+##### Exercise 2 — Environmental Conditions
 
 Compare how environmental conditions influence simulated wildfire outcomes.
 
-### Exercise 3 — River-Crossing Interventions
+##### Exercise 3 — River-Crossing Interventions
 
 Evaluate seven permitted crossing-closure combinations using 100 simulations per option with the same random seed.
 
 The crew can close at most two crossings.
 
-Independently computed results:
+**Independently computed results:**
 
 | Crossing Closure | Mean Structures Lost |
 |---|---:|
@@ -239,15 +318,15 @@ A request to close all three crossings is rejected by the simulator's tool-level
 
 These values are independent simulation results, not yet verified AI-agent recommendations.
 
-### Exercise 4 — Simulation Evaluation
+##### Exercise 4 — Simulation Evaluation
 
 Use numerical checks to evaluate the relevant wildfire simulation outcomes and compare findings.
 
-### Exercise 5 — Critical Review of Agent Reasoning
+##### Exercise 5 — Critical Review of Agent Reasoning
 
 Examine a supplied flawed agent trace and identify weaknesses in its reasoning, evidence, or conclusions.
 
-### Exercise 6 — Agent Reliability Experiment
+##### Exercise 6 — Agent Reliability Experiment
 
 Conduct ten independent AI-agent conversations using the wildfire intervention question.
 
@@ -264,13 +343,12 @@ Record:
 
 Expected output files include:
 
-`exercise6_results.json`
-
-`trace_ex6_0.json` through `trace_ex6_9.json`
+- `exercise6_results.json`
+- `trace_ex6_0.json` through `trace_ex6_9.json`
 
 These files should only be reported as completed after successful execution.
 
-## Experimental Reproducibility
+#### Experimental Reproducibility
 
 The project emphasizes reproducible research by:
 
@@ -281,7 +359,7 @@ The project emphasizes reproducible research by:
 - Saving agent execution traces
 - Evaluating agent reliability across multiple conversations
 
-## Current Project Status
+#### Current Project Status
 
 **Completed or verified:**
 
@@ -303,22 +381,23 @@ The latest model-response test encountered a Python `NameError`, so successful a
 
 These limitations will be updated when the corresponding tests are completed.
 
-## Technical Report
+#### Technical Report
 
 See the [Wildfire AI Agent Technical Report](https://github.com/DSTX28/Univ-Projects/blob/main/Wildfire_AI_Agent_Technical_Report.pdf) for the project methodology, numerical results, limitations, and technical summary.
 
 The report documents independently checked simulations and does not establish completion of the live AI-agent reliability experiment.
 
-## Attribution
+#### Attribution
 
 Based on the **How to Build Agents for Research** workshop presented through CADS at Texas State University, October 2026.
 
 Original workshop materials credit Aniruddha Bora.
 
-This repository is an educational adaptation of the workshop materials.
+This repository is an educational adaptation of the workshop materials. Original workshop contributions are acknowledged, and independently performed experiments are distinguished from the provided material.
 
-## Disclaimer
+#### Disclaimer
 
 This project is intended for research education and software experimentation.
 
 Simulation outputs should not be used to make real-world wildfire response, evacuation, or emergency management decisions.
+
