@@ -1,51 +1,324 @@
+
 # Wildfire AI Agent — Research Workshop Project
 
-A reproducible Python simulation and AI-agent evaluation exercise based on the **CADS / Texas State University “How to Build Agents for Research” workshop** (October 2026). Original workshop materials credit Aniruddha Bora. This repository adapts the workshop-provided code for learning and demonstration; the wildfire model is illustrative, not a real-world operational forecasting system.
+A reproducible Python wildfire simulation and AI-agent evaluation project based on the **CADS / Texas State University "How to Build Agents for Research" workshop** (October 2026).
 
-## What this project demonstrates
+Original workshop materials credit Aniruddha Bora.
 
-- Probabilistic wildfire simulation on a 48 × 72 landscape with 36 town structures.
-- Comparing wind direction, wind speed, dryness, and river-crossing interventions.
-- Checking model recommendations with independent numerical tests.
-- An agent-loop design with tools, traces, and guardrails (requires a configured LLM).
+This repository adapts workshop-provided code for educational purposes, numerical experimentation, and AI-agent evaluation.
 
-## Files
+**Disclaimer:** The wildfire simulator is illustrative and is not intended for real-world emergency forecasting or operational wildfire management.
 
-- `wildfire_assignment.ipynb`: Colab notebook containing all seven exercises, completed numerical check code, and prepared agent prompts.
-- `fire_sim.py`: Workshop wildfire simulator.
-- `agent_tools.py`: Narrow tools exposed to the research agent.
-- `RESULTS.md`: Independently computed experiment results.
-- `requirements.txt`: Python dependencies.
+## Project Overview
 
-## Run in Google Colab
+This project explores how AI agents can use Python tools to investigate wildfire behavior, evaluate interventions, and make evidence-based recommendations.
 
-1. Upload `wildfire_assignment.ipynb` using **Upload notebook**.
-2. In the Colab **Files** sidebar, upload `fire_sim.py` and `agent_tools.py` to the working directory.
-3. Connect a Python runtime and run the cells in order. Independent checks run without an LLM.
-4. To run the **agent** sections, configure a reachable Ollama-compatible API endpoint, then set `RUN_AGENT = True` in the relevant cells. The default `localhost:11434` endpoint will not connect to an Ollama installation on your laptop from hosted Colab.
+The project combines:
 
-## Status and limitations
+- Probabilistic wildfire simulations
+- Python-based numerical analysis
+- AI-agent reasoning with tool calls
+- Local large language models using Ollama
+- Experimental comparisons using controlled random seeds
+- Agent guardrails and execution traces
+- Reliability testing across independent agent runs
 
-**Verified:** numerical simulation checks for Exercises 0–4 and critical reading of the supplied flawed trace in Exercise 5.
+## Technical Skills Demonstrated
 
-**Not verified:** actual agent answers and traces for Exercises 1–4, and the 10-agent-run reliability experiment in Exercise 6. The notebook deliberately marks these as pending. Do not describe this as a fully completed AI-agent evaluation until those runs are executed and checked.
+- Python programming
+- Simulation and statistical analysis
+- AI-agent development
+- Large language model integration
+- Google Colab
+- Ollama and Qwen2.5
+- API communication
+- Automated experimentation
+- JSON logging and trace analysis
+- Research documentation
 
-The example agent uses generated Python and a basic text-based guard, which is **not a security boundary**. Only run trusted code in an isolated environment.
+## Simulation Environment
+
+The wildfire simulation models a 48 × 72 landscape containing 36 town structures.
+
+Experiments investigate how wildfire outcomes change with:
+
+- Wind direction
+- Wind speed
+- Environmental dryness
+- River-crossing closures
+- Intervention combinations
+
+Simulation results are compared using consistent random seeds and repeated trials.
+
+## Project Files
+
+| File | Description |
+|---|---|
+| `wildfire_assignment.ipynb` | Main Google Colab notebook containing seven exercises |
+| `fire_sim.py` | Wildfire simulation engine |
+| `agent_tools.py` | Tools available to the AI agent |
+| `RESULTS.md` | Independently computed numerical results |
+| `requirements.txt` | Python dependencies |
+| `Wildfire_AI_Agent_Technical_Report.pdf` | Technical report and experimental methodology |
+
+Agent trace files and Exercise 6 results are generated when their corresponding experiments complete successfully.
+
+## AI Agent Architecture
+
+The agent uses a tool-based reasoning loop:
+
+1. Receive a research question.
+2. Generate Python code to investigate the simulator.
+3. Check the proposed code against defined restrictions.
+4. Execute permitted simulation operations.
+5. Return numerical results to the AI model.
+6. Continue reasoning using the observed results.
+7. Produce a final answer supported by simulation evidence.
+8. Save the conversation and tool outputs as a JSON trace.
+
+The implementation uses the `qwen2.5:7b-instruct` language model through Ollama.
+
+The basic text-based code guard is an educational safeguard, not a complete security boundary. Generated code should only be executed in an isolated, trusted environment.
+
+## Running the Project in Google Colab
+
+### Step 1 — Upload Project Files
+
+Open Google Colab and upload:
+
+- `wildfire_assignment.ipynb`
+- `fire_sim.py`
+- `agent_tools.py`
+
+Ensure the Python files are accessible from the notebook's working directory.
+
+### Step 2 — Configure Runtime
+
+Select:
+
+Runtime → Change runtime type
+
+Recommended configuration:
+
+- Runtime type: Python 3
+- Hardware accelerator: T4 GPU, if available
+- Runtime version: Latest recommended
+
+A CPU runtime can also be used, although model inference may be slower.
+
+### Step 3 — Install Ollama
+
+Run the following commands in a Colab code cell:
+
+```python
+!apt-get update -qq
+!apt-get install -y zstd
+!curl -fsSL https://ollama.com/install.sh -o /tmp/install_ollama.sh
+!bash /tmp/install_ollama.sh
+```
+
+### Step 4 — Start Ollama Server
+
+Run:
+
+```python
+import subprocess
+import time
+
+server = subprocess.Popen(
+    ["ollama", "serve"],
+    stdout=open("/tmp/ollama.log", "w"),
+    stderr=subprocess.STDOUT
+)
+
+time.sleep(5)
+print("Ollama server startup attempted")
+```
+
+### Step 5 — Verify Server Connection
+
+Run:
+
+```python
+import urllib.request
+
+try:
+    response = urllib.request.urlopen(
+        "http://127.0.0.1:11434/api/tags",
+        timeout=5
+    )
+    print("SUCCESS! Ollama server connected!")
+    print(response.read().decode())
+except Exception as e:
+    print("Connection failed:", e)
+```
+
+A successful connection confirms the Ollama API is reachable.
+
+An empty model list means the server is running but no model has been downloaded.
+
+### Step 6 — Download the AI Model
+
+Run:
+
+```python
+!ollama pull qwen2.5:7b-instruct
+```
+
+The model download is approximately 4.7 GB.
+
+Verify installation:
+
+```python
+!ollama list
+```
+
+The output should include:
+
+`qwen2.5:7b-instruct`
+
+### Step 7 — Initialize the AI Agent
+
+Run the notebook's original agent setup cells in order.
+
+These define the language-model interface, simulator tool execution, code guardrails, agent reasoning loop, and `ask()` function.
+
+Verify the model responds to a test prompt before starting the agent exercises.
+
+Where required, change:
+
+```python
+RUN_AGENT = False
+```
+
+to:
+
+```python
+RUN_AGENT = True
+```
+
+Only enable agent execution after confirming the model connection and required functions are working.
+
+## Exercises
+
+### Exercise 0 — Baseline Wildfire Simulation
+
+Run 100 wildfire simulations to estimate average structural losses and the probability of the fire reaching town.
+
+### Exercise 1 — AI-Agent Investigation
+
+Use the research agent to investigate wildfire behavior through permitted simulation tools.
+
+### Exercise 2 — Environmental Conditions
+
+Compare how environmental conditions influence simulated wildfire outcomes.
+
+### Exercise 3 — River-Crossing Interventions
+
+Evaluate seven permitted crossing-closure combinations using 100 simulations per option with the same random seed.
+
+The crew can close at most two crossings.
+
+Independently computed results:
+
+| Crossing Closure | Mean Structures Lost |
+|---|---:|
+| None | 31.6 |
+| North | 31.4 |
+| Middle | 12.6 |
+| South | 29.3 |
+| North + Middle | 12.2 |
+| North + South | 29.4 |
+| Middle + South | 1.9 |
+
+**Best independently verified intervention: Middle + South**
+
+This combination reduces mean structural losses from 31.6 to 1.9 in the reported simulation comparison.
+
+A request to close all three crossings is rejected by the simulator's tool-level restriction.
+
+These values are independent simulation results, not yet verified AI-agent recommendations.
+
+### Exercise 4 — Simulation Evaluation
+
+Use numerical checks to evaluate the relevant wildfire simulation outcomes and compare findings.
+
+### Exercise 5 — Critical Review of Agent Reasoning
+
+Examine a supplied flawed agent trace and identify weaknesses in its reasoning, evidence, or conclusions.
+
+### Exercise 6 — Agent Reliability Experiment
+
+Conduct ten independent AI-agent conversations using the wildfire intervention question.
+
+Evaluate whether each completed agent response correctly identifies the middle and south crossings.
+
+Record:
+
+- Number of completed agent runs
+- Number of successful recommendations
+- Success rate
+- 95% Wilson confidence interval
+- Individual agent responses
+- JSON execution traces
+
+Expected output files include:
+
+`exercise6_results.json`
+
+`trace_ex6_0.json` through `trace_ex6_9.json`
+
+These files should only be reported as completed after successful execution.
+
+## Experimental Reproducibility
+
+The project emphasizes reproducible research by:
+
+- Comparing intervention options using consistent seeds
+- Using repeated simulation trials
+- Recording numerical outputs
+- Separating independently verified results from AI-generated conclusions
+- Saving agent execution traces
+- Evaluating agent reliability across multiple conversations
+
+## Current Project Status
+
+**Completed or verified:**
+
+- Wildfire simulator numerical checks for Exercises 0–4
+- Independent comparison of crossing interventions
+- Critical review of the supplied flawed trace in Exercise 5
+- Installation of Ollama in Google Colab
+- Successful connection to the Ollama server
+- Successful download of `qwen2.5:7b-instruct`
+
+**Pending verification:**
+
+- Successful model-response test through the notebook's `llm()` function
+- Actual AI-agent answers and traces for Exercises 1–4
+- Ten independent agent runs for Exercise 6
+- Measured Exercise 6 success rate and confidence interval
+
+The latest model-response test encountered a Python `NameError`, so successful agent execution has not yet been established.
+
+These limitations will be updated when the corresponding tests are completed.
+
+## Technical Report
+
+See the [Wildfire AI Agent Technical Report](https://github.com/DSTX28/Univ-Projects/blob/main/Wildfire_AI_Agent_Technical_Report.pdf) for the project methodology, numerical results, limitations, and technical summary.
+
+The report documents independently checked simulations and does not establish completion of the live AI-agent reliability experiment.
 
 ## Attribution
 
-Workshop source code and exercise: *How to Build Agents for Research*, CADS, Texas State University, Aniruddha Bora, October 2026.
+Based on the **How to Build Agents for Research** workshop presented through CADS at Texas State University, October 2026.
 
-## Technical project report and résumé summary
+Original workshop materials credit Aniruddha Bora.
 
-See [Wildfire AI Agent Technical Report (PDF)](Wildfire_AI_Agent_Technical_Report.pdf) for objectives, methodology, benchmark results, limitations, and résumé-ready bullets. The PDF is a report of independently checked simulations, **not** a claim that the live AI agent or repeated reliability trials have been run.
+This repository is an educational adaptation of the workshop materials.
 
-## Running Exercise 6 in Google Colab
+## Disclaimer
 
-1. Upload `wildfire_assignment.ipynb`, `fire_sim.py`, and `agent_tools.py` to the same Colab runtime.
-2. Run the **Google Colab model setup** cell; it installs Ollama and downloads `qwen2.5:7b-instruct` into the Colab runtime.
-3. Run notebook cells in order through Exercise 3.
-4. Run Exercise 6 to collect ten **real** independent model runs and save `exercise6_results.json` and trace files.
-5. Replace the Exercise 6 placeholder with the printed observed result. Do not claim agent success until the runs complete.
+This project is intended for research education and software experimentation.
 
-**Status:** Exercise 6 implementation is ready but its ten agent outcomes have not been executed or measured in this delivered archive.
+Simulation outputs should not be used to make real-world wildfire response, evacuation, or emergency management decisions.
