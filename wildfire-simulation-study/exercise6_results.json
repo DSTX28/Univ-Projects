@@ -1,0 +1,102 @@
+{
+  "model": "qwen2.5:7b-instruct",
+  "runs": 10,
+  "hits": 3,
+  "wilson_95pct": [
+    0.10778928748621183,
+    0.6032267800204347
+  ],
+  "loose_substring_hits": 3,
+  "details": [
+    {
+      "run": 1,
+      "completed": true,
+      "correct": true,
+      "passes_original_substring_check": true,
+      "recommendation": "the best crossing combination is ('middle', 'south') with a mean structures lost of 1",
+      "seconds": 8,
+      "answer": "ANSWER: The best crossing combination is ('middle', 'south') with a mean structures lost of 1.9."
+    },
+    {
+      "run": 2,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "('north', 'south') as the best crossing combination based on the mean structures lost",
+      "seconds": 9,
+      "answer": "ANSWER: ('north', 'south') as the best crossing combination based on the mean structures lost."
+    },
+    {
+      "run": 3,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "the best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29",
+      "seconds": 8,
+      "answer": "ANSWER: The best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29.4."
+    },
+    {
+      "run": 4,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "the best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29",
+      "seconds": 8,
+      "answer": "ANSWER: The best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29.4."
+    },
+    {
+      "run": 5,
+      "completed": true,
+      "correct": true,
+      "passes_original_substring_check": true,
+      "recommendation": "the best crossing combination is ['middle', 'south'] with a mean structures lost of 1",
+      "seconds": 9,
+      "answer": "ANSWER: The best crossing combination is ['middle', 'south'] with a mean structures lost of 1.9."
+    },
+    {
+      "run": 6,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "('north', 'south')",
+      "seconds": 8,
+      "answer": "ANSWER: ('north', 'south')"
+    },
+    {
+      "run": 7,
+      "completed": true,
+      "correct": true,
+      "passes_original_substring_check": true,
+      "recommendation": "the best crossing combination is ['south', 'middle'] with the mean structures lost value of 1",
+      "seconds": 9,
+      "answer": "ANSWER: The best crossing combination is ['south', 'middle'] with the mean structures lost value of 1.9."
+    },
+    {
+      "run": 8,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "the best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29",
+      "seconds": 8,
+      "answer": "ANSWER: The best crossing combination is closing both 'north' and 'south', with a mean structures lost of 29.4."
+    },
+    {
+      "run": 9,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "('north', 'middle') as the best crossing combination based on the mean structures lost",
+      "seconds": 9,
+      "answer": "ANSWER: ('north', 'middle') as the best crossing combination based on the mean structures lost."
+    },
+    {
+      "run": 10,
+      "completed": true,
+      "correct": false,
+      "passes_original_substring_check": false,
+      "recommendation": "('north', 'south') as the best crossing combination based on mean structures lost",
+      "seconds": 9,
+      "answer": "ANSWER: ('north', 'south') as the best crossing combination based on mean structures lost."
+    }
+  ]
+}

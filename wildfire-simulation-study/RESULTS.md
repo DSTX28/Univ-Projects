@@ -1,4 +1,4 @@
-# Independently verified simulation results
+# Results: independent simulator checks and live agent runs
 
 Computed using the supplied `fire_sim.py` and `agent_tools.py`, default `seed=0`, `n=100` fires per option. Results are model outputs, not empirical wildfire forecasts.
 
@@ -47,8 +47,25 @@ Computed using the supplied `fire_sim.py` and `agent_tools.py`, default `seed=0`
 ## Exercise 5: Flawed agent trace
 The example trace compares only 4 of the 7 permitted options, uses 10 runs rather than 100 per option, and changes seeds between alternatives, making comparisons less controlled. Its conclusion is not established by a comprehensive controlled comparison.
 
-## Exercise 6: Repeated agent reliability
-Not run: requires 10 real agent executions and the corresponding Wilson interval.
+## Agent runs (qwen2.5:7b-instruct via Ollama, Apple M4 Pro, 27 Nov 2026)
 
-## Exercise 6: agent consistency
-The notebook now includes a runnable ten-trial test and saves machine-readable results and individual traces. **No observed hit count is supplied** because a live model run has not been performed. Execute it in Colab to obtain the answer.
+Every agent result below comes from the saved traces (`trace_ex*.json`, `exercise6_results.json`).
+
+| Exercise | Correct (independent check) | Agent answered | Root cause seen in the trace |
+|---|---|---|---|
+| 1 Wind direction | E (31.6) | south ✗ | Passed integers 0–7 instead of compass names; `KeyError` on a guessed key; answered with no data |
+| 2 Wind speed | Depends: loss ↑ 31.3→33.5, area ↓ 2655→1846 ha | "yes, area increases" ✗ | Printed the right numbers, then misread the trend; ignored building loss |
+| 3 Crossings | middle + south (1.9) | north + south (29.4) ✗ | Correct, controlled experiment (all 7 options, n=100, seed=0), wrong reading of the output |
+| 4 Dryness threshold | 0.9 (ratio 0.40) | 1.3, all ratios 0 ✗ | `.get('structures lost', 0)` hid a wrong key, so every value became 0 |
+
+Common patterns: the model **guessed dictionary keys** (the tool docstrings don't list them), often wrote
+`ANSWER:` **before** its code had run, and once it had numbers it **misread** them.
+
+## Exercise 6: agent reliability (10 fresh conversations, Exercise 3's question)
+- **3 of 10** recommended middle + south; **95 % Wilson interval 0.11–0.60**.
+- Wrong picks: north + south ×6, north + middle ×1.
+- In all 7 wrong runs, the tool output contained the correct 1.9 for middle + south.
+- Grading checks the recommendation line itself (the workshop's anywhere-in-the-text check also gives 3/10 here).
+- 8–9 s per run.
+
+![Agent reliability](images/agent_reliability.png)
