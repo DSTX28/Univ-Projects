@@ -1,7 +1,7 @@
 # Wildfire intervention study: controlled Monte Carlo experiments and AI-agent evaluation
 
 **Texas State University · CADS "How to Build Agents for Research" workshop · October 2026**
-Simulator and agent tools: workshop materials by **Aniruddha Bora**. Experiments, analysis and report: Daniel Shaheen.
+Simulator and agent tools: workshop materials by **Aniruddha Bora**. Experiments, agent evaluation, notebook fixes and report: Daniel Shaheen.
 
 **Question:** a fire starts west of a river; a town of 36 structures sits east of it. A crew can close **at
 most two** of the three river crossings before the fire arrives. Which two, and how sure are we?
@@ -33,30 +33,49 @@ most two** of the three river crossings before the fire arrives. Which two, and 
 - **Dryness dominates:** closing the middle crossing cuts losses to 0 % of baseline at dryness 0.6, but only to
   97 % of baseline at 1.3. The same intervention can be decisive or useless depending on conditions.
 
-## Evaluating an AI agent's reasoning
-The workshop's second half used an LLM agent (Qwen 2.5 7B via Ollama) that calls the simulator through narrow
-tools, with the two-crossing limit enforced **inside** the tool rather than by prompt instructions. I critiqued a
-supplied agent trace that reached a confident recommendation from a flawed experiment: it compared only 4 of 7
-options, used 10 runs instead of 100, and changed seeds between options, so its comparison wasn't controlled.
+## Does an AI agent get it right? I tested it.
+The workshop's agent is an LLM (Qwen 2.5 7B, run locally with Ollama) that writes Python to call the simulator
+through narrow tools, with the two-crossing limit enforced **inside** the tool rather than by prompt instructions.
+I ran it on every exercise and checked each answer against my own controlled results.
 
-**Status:** the 10-run agent reliability experiment (Exercise 6) is set up in the notebook but hasn't been run
-yet, so no agent success rate is reported here.
+![Agent reliability](images/agent_reliability.png)
+
+| Question | Correct answer | Agent's answer | What the trace shows |
+|---|---|---|---|
+| Most dangerous wind direction | East | south ✗ | Called the tool wrong, got errors, answered with no data |
+| Is stronger wind worse? | Depends: more buildings lost, less area burned | "yes, more area" ✗ | Had the right numbers, read the trend backwards |
+| Which crossings to close? | middle + south (1.9 lost) | north + south (29.4) ✗ | **Correct experiment, wrong reading of its own output** |
+| Dryness limit for the middle closure | 0.9 | 1.3 ✗ | `.get(key, 0)` hid a bug and turned every value into 0 |
+| Same crossing question, 10 fresh runs | — | **3 / 10 correct** (95 % CI 0.11–0.60) | In all 7 failures, the correct 1.9 was in the agent's own tool output |
+
+**Takeaway:** a small agent can write a correct experiment and still draw the wrong conclusion, and a quiet
+default value can turn a bug into a confident wrong answer. Independent checks on the same seeds caught every
+error. Full analysis: [`RESULTS.md`](RESULTS.md) · notebook answers for each exercise.
+
+### Fixes I made to the workshop notebook
+- **`NameError` in Exercise 6:** the question was only defined inside an `if` block that was skipped when the agent was off
+- **One agent switch**, set automatically by the connection test, instead of `RUN_AGENT = False` repeated in every cell
+- **Sandboxed execution:** model-written code runs under macOS `sandbox-exec` with no network and no writes outside a temporary folder (the workshop's word-list guard alone is not a security boundary)
+- **Stricter grading** in the 10-run test: checks the recommendation itself, not whether two words appear anywhere
+- Consistent trace filenames for the hand-in
 
 ## Files
 | File | Description |
 |---|---|
-| [`technical-report.pdf`](technical-report.pdf) | 3-page technical report: method, results, limitations |
-| [`RESULTS.md`](RESULTS.md) | All numerical results, Exercises 0–5 |
-| [`wildfire_assignment.ipynb`](wildfire_assignment.ipynb) | Colab notebook (exercises and agent harness) |
+| [`wildfire_assignment.ipynb`](wildfire_assignment.ipynb) | Completed notebook: all 7 exercises, executed, with agent traces printed |
+| [`RESULTS.md`](RESULTS.md) | All numerical results: simulator checks and agent runs |
+| `trace_ex1–4.json`, `trace_ex6_0–9.json`, [`exercise6_results.json`](exercise6_results.json) | Raw agent conversations and the 10-run reliability results |
+| [`technical-report.pdf`](technical-report.pdf) | 3-page report on the simulation study (written before the agent runs) |
 | [`fire_sim.py`](fire_sim.py), [`agent_tools.py`](agent_tools.py) | Workshop simulator and agent tool layer |
 
 <details>
-<summary>Running the agent in Google Colab</summary>
+<summary>Running it yourself</summary>
 
-1. Upload the notebook, `fire_sim.py` and `agent_tools.py` to Colab (T4 GPU runtime recommended).
-2. Install and start Ollama: `!curl -fsSL https://ollama.com/install.sh | sh`, then start `ollama serve` in a background subprocess.
-3. `!ollama pull qwen2.5:7b-instruct` (~4.7 GB).
-4. Run the agent setup cells in order, then set `RUN_AGENT = True`.
+**Locally (how the results here were produced):** install Ollama, run `ollama pull qwen2.5:7b-instruct` (~4.7 GB),
+then run the notebook top to bottom. The agent switch turns on automatically when the model answers.
+
+**Google Colab:** upload the notebook, `fire_sim.py` and `agent_tools.py`, then run the Colab setup cell first; it
+installs Ollama inside the Colab machine and pulls the model. On Colab (Linux) the macOS sandbox isn't available.
 
 The text-based code guard is an educational safeguard, not a security boundary: run generated code only in an isolated environment.
 </details>
